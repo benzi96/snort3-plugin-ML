@@ -1,0 +1,14 @@
+numpy
+scipy
+scikit-learn
+pandas
+matplotlib
+ipython
+jupyter
+pandas
+sympy
+nose
+flask
+flatbuffers
+pytest
+Flask-Sockets

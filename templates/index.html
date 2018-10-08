@@ -1,0 +1,133 @@
+<head>
+    <title>Snort with Machine Learning</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <button id="kmeans" type="button" class="btn" onclick="kmeans()">KMeans</button>
+            <button id="neutralnetwork" type="button" class="btn" onclick="neutralnetwork()">Neutral Network</button>
+            <button id="svm" type="button" class="btn" onclick="svm()">SVM</button>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background:yellowgreen'>
+                        GÓI TIN BÌNH THƯỜNG
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='normal' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN BẤT THƯỜNG
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='anomaly' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN U2R
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='u2r' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN DDOS
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='ddos' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN PROBE
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='probe' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header" style='background-color: red'>
+                        GÓI TIN R2L
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='r2l' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header">
+                        TỔNG SỐ GÓI TIN
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='total' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // connection = new WebSocket("ws://0.0.0.0:5000/ws")
+        var algorithm = "neutralnetwork";
+        // connection.onmessage = (message) => {
+        //     console.log(message.data);
+        //     var statistic = JSON.parse(message.data)
+        //     document.getElementById("normal").innerText = statistic.normal;
+        //     document.getElementById("anomaly").innerText = statistic.anomaly;
+        //     // document.getElementById("total").innerText = statistic.normal + statistic.anomaly + statistic.ddos + statistic.probe + statistic.r2l + statistic.u2r;
+        //     document.getElementById("ddos").innerText = statistic.ddos;
+        //     document.getElementById("probe").innerText = statistic.probe;
+        //     document.getElementById("r2l").innerText = statistic.r2l;
+        //     document.getElementById("u2r").innerText = statistic.u2r;
+        //     document.getElementById("total").innerText = statistic.all;
+        // };
+        function kmeans()
+        {
+            algorithm = "kmeans";
+        }
+        function neutralnetwork()
+        {
+            algorithm = "neutralnetwork";
+        }
+        function svm()
+        {
+            algorithm = "svm";
+        }
+        // setInterval(() => {
+        //     connection.send("statistic" + algorithm)
+        // }, 3000);
+        // setInterval(() => {
+        //     connection.send("all")
+        // }, 1000);
+    </script>
+</body>
