@@ -111,7 +111,7 @@ file_id = { file_rules = file_magic }
 
 -- the following require additional configuration to be fully effective:
 dpx = {
-    host = "predict-server:5000/predict"
+    host = "127.0.0.1:5000/predict"
 }
 
 appid =

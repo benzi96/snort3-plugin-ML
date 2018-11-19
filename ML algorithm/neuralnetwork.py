@@ -7,8 +7,8 @@ from default_clf import DefaultNSL, COL_NAMES, ATTACKS
 
 class NeuralNetworkNSL(DefaultNSL):
 
-     def __init__(self):
-        super(NeuralNetworkNSL, self).__init__()
+    def __init__(self):
+       	super(NeuralNetworkNSL, self).__init__()
 
     @staticmethod
     def load_data(filepath):
@@ -48,7 +48,6 @@ class NeuralNetworkNSL(DefaultNSL):
         return [test_preds, test_acc]
 
     def predict(self, packet):
-        # data = pd.DataFrame([packet], columns=COL_NAMES)
         data = pd.DataFrame(packet, columns=COL_NAMES)
         # Shuffle data
         data = data.sample(frac=1).reset_index(drop=True)
@@ -66,5 +65,4 @@ class NeuralNetworkNSL(DefaultNSL):
         labels = data['labels']
         del data['labels']
         predict = self.clf.predict(data)
-        # return predict[0]
         return predict

@@ -160,6 +160,7 @@ std::string Dpx::request(uint8_t *buf, int size) {
     curl_easy_setopt(ctx, CURLOPT_HTTPHEADER, headers);
 
     CURLcode ret = curl_easy_perform(ctx);
+    
     if (ret != CURLE_OK)
         fprintf(stderr, "curl_easy_perform() failed: %s\n",
                 curl_easy_strerror(ret));
@@ -187,18 +188,18 @@ std::string Dpx::predict(FeatureExtractor::ConversationFeatures *cf) {
     packetBuilder.add_wrong_fragment(cf->get_conversation()->get_wrong_fragments());
     packetBuilder.add_urgent(cf->get_conversation()->get_urgent_packets());
     packetBuilder.add_hot(0);
-    packetBuilder.add_num_failed_logins(0);
-    packetBuilder.add_logged_in(0);
-    packetBuilder.add_num_compromised(0);
-    packetBuilder.add_root_shell(0);
-    packetBuilder.add_su_attempted(0);
-    packetBuilder.add_num_root(0);
-    packetBuilder.add_num_file_creations(0);
-    packetBuilder.add_num_shells(0);
-    packetBuilder.add_num_access_files(0);
-    packetBuilder.add_num_outbound_cmds(0);
-    packetBuilder.add_is_host_login(0);
-    packetBuilder.add_is_guest_login(0);
+    //packetBuilder.add_num_failed_logins(0);
+    //packetBuilder.add_logged_in(0);
+    //packetBuilder.add_num_compromised(0);
+    //packetBuilder.add_root_shell(0);
+    //packetBuilder.add_su_attempted(0);
+    //packetBuilder.add_num_root(0);
+    //packetBuilder.add_num_file_creations(0);
+    //packetBuilder.add_num_shells(0);
+    //packetBuilder.add_num_access_files(0);
+    //packetBuilder.add_num_outbound_cmds(0);
+    //packetBuilder.add_is_host_login(0);
+    //packetBuilder.add_is_guest_login(0);
     packetBuilder.add_count(cf->get_count());
     packetBuilder.add_srv_count(cf->get_srv_count());
     packetBuilder.add_serror_rate(cf->get_serror_rate());
@@ -222,9 +223,8 @@ std::string Dpx::predict(FeatureExtractor::ConversationFeatures *cf) {
     builder.Finish(orc);
     uint8_t *buf = builder.GetBufferPointer();
     int size = builder.GetSize();
-
-    std::string result = request(buf, size);
-    return result;
+    request(buf, size);
+    return "1";
 }
 
 void Dpx::eval(Packet *packet) {
@@ -241,19 +241,25 @@ void Dpx::eval(Packet *packet) {
         }
         ++dpxstats.total_packets;
     }
-
     conv_reconstructor->finish_all_conversations();
     FeatureExtractor::Conversation *conv;
+    //fprintf(stderr, "test ngoai\n");
     while ((conv = conv_reconstructor->get_next_conversation()) != nullptr) {
+	//fprintf(stderr, "test\n");
         FeatureExtractor::ConversationFeatures *cf = stats_engine->calculate_features(conv);
         conv = nullptr;        // Should not be used anymore, object will commit suicide
-
-        std::string result = predict(cf);
-        if (result != "normal") {
-            DetectionEngine::queue_event(DPX_GID, DPX_SID);
-        }
+        predict(cf);
         delete cf;
     }
+    //conv = conv_reconstructor->get_next_conversation();
+    //if(conv != nullptr)
+    //{
+    //    FeatureExtractor::ConversationFeatures *cf = stats_engine->calculate_features(conv);
+    //    conv = nullptr;        // Should not be used anymore, object will commit suicide
+    //    
+    //    //predict(cf);
+    //    delete cf;
+    //}
 }
 
 //-------------------------------------------------------------------------
@@ -331,7 +337,7 @@ static const InspectApi dpx_api{
          s_help,
          mod_ctor,
          mod_dtor},
-        IT_STREAM,
+        IT_PACKET,
         PROTO_BIT__ANY_IP,
         nullptr, // buffers
         nullptr, // service

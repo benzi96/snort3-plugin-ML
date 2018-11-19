@@ -1,0 +1,103 @@
+// settings default path
+export my_path=/opt/snort
+export PKG_CONFIG_PATH=$my_path/lib/pkgconfig
+export SNORT_LUA_PATH=$my_path/etc/snort
+export LUA_PATH=$my_path/include/snort/lua/\?.lua\;\;
+
+// add to cmake to compile the plugin in extra/src/cmakelist.txt
+add_subdirectory ( plugin )
+add_subdirectory ( inspectors )
+
+// install plugin in folder extra 
+// cd to your extra folder plugin
+cd ~/snort_src/snort3-master/extra
+cd ~/snort_src/snort3_extra
+./configure_cmake.sh --prefix=/opt/snort
+cd build
+make
+sudo make install
+
+// list plugin
+$my_path/bin/snort --list-plugins
+
+// library curl to compile c++ file 
+sudo apt-get install libcurl4-openssl-dev
+
+// install python-pip on ubuntu
+sudo apt install python-pip
+
+**install python3++ fo ubuntu <= 16.04 for requirement library
+sudo add-apt-repository ppa:jonathonf/python-3.6
+sudo apt-get update
+sudo apt-get install python3.6
+http://ubuntuhandbook.org/index.php/2017/07/install-python-3-6-1-in-ubuntu-16-04-lts/
+
+// run python server first time
+cd ids-machine-learning
+pip install virtualenv
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+python main.py
+
+// run python server
+cd ~/ids-machine-learning
+source env/bin/activate
+python main.py
+
+// pcap file
+cd ~/snort_src/ie_aurora
+
+**config snort.lua to choose a specific inspector(preprocessor)
+// change snort.lua to run a plugin
+cd $my_path/etc/snort
+sudo gedit snort.lua
+?? snort.lua: dpx = { port = '80' }
+example: plugin_name = { } //use plugin with name plugin_name with default option
+
+// run a plugin
+$my_path/bin/snort --plugin-path /opt/snort/lib/snort_extra -A alert_ex --warn-all
+$my_path/bin/snort -c $my_path/etc/snort/snort.lua --plugin-path $my_path/lib/snort_extra -r ie_aurora_exploitWin2k3.pcap
+sudo $my_path/bin/snort -c ~/ids-machine-learning/plugin/snort.lua --plugin-path $my_path/lib/snort_extra -i ens33
+
+//
+Set-ExecutionPolicy Restricted
+
+//check network interface
+ip addr
+
+//dos
+sudo hping3 --flood --rand-source --udp -p 445 192.168.184.128
+sudo hping3 192.168.184.128 -1 -d 10000 -i u3 -V -n
+sudo hping3 -c 10000 --rand-source --udp -p 445 -i u100 -d 10 192.168.184.128
+//probe
+sudo apt-get install nmap
+nmap -p- 192.168.189.128
+
+//share lua path to root
+sudo visudo 
+Defaults env_keep += "LUA_PATH SNORT_LUA_PATH"
+
+//dst_host_count
+
+//run test
+python -c 'import test_predict; print test_predict.test_predict()'
+
+with gevent.Timeout(1.0, False):
+    msg = ws.receive()
+
+test = ["a", "b", "c", "d", "a", "b", "c", "d", "a", "b", "c", "d"]
+test2= ["a", "b", "c"]
+print sum(test == test2)/len(test)
+
+iloc[lay dong nao(rows), lay cot nao(columns)]
+
+install flatbuffer for create packet.py packet_generated.h
+git clone https://github.com/google/flatbuffers.git
+cd flatbuffers
+cmake -G "Unix Makefiles"
+make
+./flattests
+
+//generate packet class
+./flatc --python ../ids-machine-learning/packet1.fbs

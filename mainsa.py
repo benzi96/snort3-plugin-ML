@@ -1,7 +1,6 @@
 from kmeans.kmeans_nsl import KMeansNSL
 from kmeans.svm import SVM_NSL
 from kmeans.neuralnetwork import NeuralNetworkNSL
-from kmeans.naivebayes import NaiveBayesNSL
 
 from kmeans.packet import Packet
 from flask import Flask, render_template
@@ -24,28 +23,25 @@ listPackets=[]
 app = Flask(__name__)
 sockets = Sockets(app)
 kmean = KMeansNSL()
-#svm = SVM_NSL()
-#neutralNetwork= NeuralNetworkNSL()
-#naiveBayes= NaiveBayesNSL()
+svm = SVM_NSL()
+neutralNetwork= NeuralNetworkNSL()
 
 
 @sockets.route('/ws')
 def web_socket(ws):
     while not ws.closed:
         message = ws.receive()
-        if message == "statistickmeans" or message == "statisticneuralnetwork" or message == "statisticsvm" or message == "statisticnaivebayes":
+        if message == "statistickmeans" or message == "statisticneuralnetwork" or message == "statisticsvm":
             global listPackets
             n = len(listPackets)
             if (n > 0):
                 data = []
                 if message == "statistickmeans":
                     data = kmean.predict(listPackets)
-                #if message == "statisticneuralnetwork":
-                #    data = neutralNetwork.predict(listPackets)
-                #if message == "statisticsvm":
-                #    data = svm.predict(listPackets)
-		#if message == "statisticnaivebayes":
-                #    data = naiveBayes.predict(listPackets)
+                if message == "statisticneuralnetwork":
+                    data = neutralNetwork.predict(listPackets)
+                if message == "statisticsvm":
+                    data = svm.predict(listPackets)
                 del listPackets[:n]
                 for result in data:
                     if (result == "normal"):
@@ -97,6 +93,18 @@ def predict_packet():
         "wrong_fragment": data.WrongFragment(),
         "urgent": data.Urgent(),
         "hot": data.Hot(),
+        "num_failed_logins": data.NumFailedLogins(),
+        "logged_in": data.LoggedIn(),
+        "num_compromised": data.NumCompromised(),
+        "root_shell": data.RootShell(),
+        "su_attempted": data.SuAttempted(),
+        "num_root": data.NumRoot(),
+        "num_file_creations": data.NumFileCreations(),
+        "num_shells": data.NumShells(),
+        "num_access_files": data.NumAccessFiles(),
+        "num_outbound_cmds": data.NumOutboundCmds(),
+        "is_host_login": data.IsHostLogin(),
+        "is_guest_login": data.IsGuestLogin(),
         "count": data.Count(),
         "srv_count": data.SrvCount(),
         "serror_rate": data.SerrorRate(),
@@ -125,14 +133,12 @@ def predict_packet():
 
 
 if __name__ == '__main__':
-    kmean.load_training_data('datasets/KDDTrain+.csv')
-    kmean.train_clf()
+    #kmean.load_training_data('datasets/KDDTrain+.csv')
+    #kmean.train_clf()
     #svm.load_training_data('datasets/KDDTrain+.csv')
     #svm.train_clf()
-    #neutralNetwork.load_training_data('datasets/KDDTrain+.csv')
-    #neutralNetwork.train_clf()
-    #naiveBayes.load_training_data('datasets/KDDTrain+.csv')
-    #naiveBayes.train_clf()
+    neutralNetwork.load_training_data('datasets/KDDTrain+.csv')
+    neutralNetwork.train_clf()
 
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler
