@@ -4,6 +4,8 @@ add new algorithm ANN, SVM
 
 change analyzing packet structure by using queue to store incoming packets to python server
 
+reduce 41 features to 28 features (remove 10-22 features in kdd)
+
 Datasets from: https://github.com/defcom17/NSL_KDD
 
 Code based on:
