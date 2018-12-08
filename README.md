@@ -2,6 +2,8 @@ fix cannot predict attack packets
 
 add new algorithm ANN, SVM
 
+change analyzing packet structure by using queue to store incoming packets to python server
+
 Datasets from: https://github.com/defcom17/NSL_KDD
 
 Code based on:
