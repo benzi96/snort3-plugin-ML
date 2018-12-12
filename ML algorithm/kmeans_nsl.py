@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import minmax_scale
-from .default_clf import DefaultNSL, COL_NAMES, USE_COL_NAMES, ATTACKS
+from .default_clf import DefaultNSL, COL_NAMES, ATTACKS
 
 
 class KMeansNSL(DefaultNSL):
@@ -28,13 +28,13 @@ class KMeansNSL(DefaultNSL):
 
     @staticmethod
     def load_data(filepath):
-        data = pd.read_csv(filepath, names=COL_NAMES, usecols=USE_COL_NAMES, index_col=False)
+        data = pd.read_csv(filepath, names=COL_NAMES, index_col=False)
         # Shuffle data
         data = data.sample(frac=1).reset_index(drop=True)
         NOM_IND = [1, 2, 3]
-        BIN_IND = [6]
+        BIN_IND = [6, 11, 13, 14, 20, 21]
         # Need to find the numerical columns for normalization
-        NUM_IND = list(set(range(28)).difference(NOM_IND).difference(BIN_IND))
+        NUM_IND = list(set(range(40)).difference(NOM_IND).difference(BIN_IND))
 
         # Scale all numerical data to [0-1]
         data.iloc[:, NUM_IND] = minmax_scale(data.iloc[:, NUM_IND])
@@ -71,13 +71,13 @@ class KMeansNSL(DefaultNSL):
                 self.clusters[clust] = k[1]
 
     def predict(self, packet):
-        data = pd.DataFrame(packet, columns=USE_COL_NAMES)
+        data = pd.DataFrame(packet, columns=COL_NAMES)
 
         data = data.sample(frac=1).reset_index(drop=True)
         NOM_IND = [1, 2, 3]
-        BIN_IND = [6]
+        BIN_IND = [6, 11, 13, 14, 20, 21]
 
-        NUM_IND = list(set(range(28)).difference(NOM_IND).difference(BIN_IND))
+        NUM_IND = list(set(range(40)).difference(NOM_IND).difference(BIN_IND))
 
         data.iloc[:, NUM_IND] = minmax_scale(data.iloc[:, NUM_IND])
         del data['labels']
