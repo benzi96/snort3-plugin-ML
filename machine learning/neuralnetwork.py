@@ -12,10 +12,10 @@ class NeuralNetworkNSL(DefaultNSL):
         data = pd.read_csv(filepath, names=COL_NAMES, index_col=False)
         # Shuffle data
         data = data.sample(frac=1).reset_index(drop=True)
-        NOM_IND = [0, 1, 2]
-        BIN_IND = [5, 10, 12, 13, 19, 20]
+        NOM_IND = [1, 2, 3]
+        BIN_IND = [6, 11, 13, 14, 20, 21]
         # Need to find the numerical columns for normalization
-        NUM_IND = list(set(range(41)).difference(NOM_IND).difference(BIN_IND))
+        NUM_IND = list(set(range(40)).difference(NOM_IND).difference(BIN_IND))
         # Convert nominal to category codes
         for num in NOM_IND:
             data.iloc[:, num] = data.iloc[:, num].astype('category')
