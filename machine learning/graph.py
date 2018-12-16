@@ -9,7 +9,7 @@ kmean.load_training_data('datasets/KDDTrain+.csv')
 kmean.train_clf()
 kmean.load_test_data('datasets/KDDTest+.csv')
 ind = np.arange(4)
-width = 0.1
+width = 0.2
 ans, clusters = kmean.test_clf()
 print(clusters)
 normal = []
@@ -42,7 +42,7 @@ ax.set_ylabel('Number of Rows')
 ax.set_title('Distribution of Clusters')
 ax.set_yticks(np.arange(roof, step=roof/6))
 ax.set_xlabel('Clusters')
-ax.set_xticks(ind + width/2)
+ax.set_xticks(ind + width)
 ax.set_xticklabels(('1', '2', '3', '4'))
 # ax.legend((rects1[0], rects2[0]), ('Normal', 'Anomaly'))
 ax.legend((rects1[0], rects2[0], rects3[0], rects4[0], rects5[0]), ('Normal', 'Dos', 'Probe', 'R2L', 'U2R'))
