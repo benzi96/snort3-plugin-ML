@@ -23,6 +23,7 @@
             <button id="neuralnetwork" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button>
             <button id="svm" type="button" class="btn btn-secondary" onclick="svm()">SVM</button>
 	    <button id="naivebayes" type="button" class="btn btn-secondary" onclick="naivebayes()">Naive Bayes</button>
+		<button id="reset" type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
         </div>
         <div>
             <h3 id="algorithmselected">Thuật toán được lựa chọn: KMeans</h3>
@@ -155,6 +156,7 @@
     <script>
         connection = new WebSocket("ws://0.0.0.0:5000/ws");
         var algorithm = "kmeans";
+		var command = "all";
         var algorithmText = "Thuật toán được lựa chọn: ";
         connection.onmessage = (message) => {
             console.log(message.data);
@@ -190,12 +192,17 @@
             algorithm = "naivebayes";
             document.getElementById("algorithmselected").innerText = algorithmText + "Naive Bayes";
         }
+		function reset() {
+			if(command == "all")
+				command = "reset";
+			else command = "all";
+        }
         setInterval(() => {
             connection.send("statistic" + algorithm)
         }, 3000);
 
 	setInterval(() => {
-            connection.send("all")
+            connection.send(command)
         }, 1000);
       
     </script>

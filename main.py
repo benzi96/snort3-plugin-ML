@@ -33,6 +33,17 @@ kmean = KMeansNSL()
 def web_socket(ws):
     while not ws.closed:
         message = ws.receive()
+		if(message == "reset"):
+			global normal
+            normal = 0
+			global ddos
+            ddos = 0
+			global probe
+			probe = 0
+			global u2r
+			u2r = 0
+			global r2l
+			r2l = 0
         if message == "statistickmeans" or message == "statisticneuralnetwork" or message == "statisticsvm" or message == "statisticnaivebayes":
             global listPackets
             n = len(listPackets)
