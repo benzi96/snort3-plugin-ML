@@ -18,21 +18,21 @@
         <div class="page-header">
             <h1>Snort with Machine Learning</h1>
         </div>
-        <div class="btn-group">
-            <button id="kmeans" type="button" class="btn btn-secondary" onclick="neuralnetwork()">Neural Network</button>
-            <button id="neuralnetwork" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button>
+        <div style='display:flex;justify-content:space-between;width:205px'>
+            <button id="neuralnetwork" type="button" class="btn btn-secondary" onclick="neuralnetwork()">Neural Network</button>
+            <!-- <button id="kmeans" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button> -->
             <button id="svm" type="button" class="btn btn-secondary" onclick="svm()">SVM</button>
-	    <button id="naivebayes" type="button" class="btn btn-secondary" onclick="naivebayes()">Naive Bayes</button>
-		<button id="reset" type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
+			<!--<button id="naivebayes" type="button" class="btn btn-secondary" onclick="naivebayes()">Naive Bayes</button> -->
+			<!--<button id="reset" type="button" class="btn btn-secondary" onclick="reset()">Reset</button> -->
         </div>
         <div>
-            <h3 id="algorithmselected">Thuật toán được lựa chọn: KMeans</h3>
+            <h3 id="algorithmselected">Thuật toán được lựa chọn: Neural Network</h3>
         </div>
         <div class="col-xs-12" style="height:17px;"></div>
         <div class="row">
             <div class="col-sm">
                 <div class="card border-success mb-3">
-                    <div class="card-header" style='background:yellowgreen'>
+                    <div class="card-header" style='background:gray;color:white'>
                         GÓI TIN BÌNH THƯỜNG
                     </div>
                     <div class="card-body">
@@ -49,7 +49,7 @@
             </div>
             <div class="col-sm">
                 <div class="card border-danger mb-3">
-                    <div class="card-header" style='background:red'>
+                    <div class="card-header" style='background:black;color:white'>
                         GÓI TIN BẤT THƯỜNG
                     </div>
                     <div class="card-body">
@@ -66,7 +66,7 @@
             </div>
             <div class="col-sm">
                 <div class="card border-danger mb-3">
-                    <div class="card-header" style='background:red'>
+                    <div class="card-header" style='background:black;color:white'>
                         GÓI TIN U2R
                     </div>
                     <div class="card-body">
@@ -86,7 +86,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="card border-danger mb-3">
-                    <div class="card-header" style='background:red'>
+                    <div class="card-header" style='background:black;color:white'>
                         GÓI TIN DDOS
                     </div>
                     <div class="card-body">
@@ -103,7 +103,7 @@
             </div>
             <div class="col-sm">
                 <div class="card border-danger mb-3">
-                    <div class="card-header" style='background:red'>
+                    <div class="card-header" style='background:black;color:white'>
                         GÓI TIN PROBE
                     </div>
                     <div class="card-body">
@@ -120,7 +120,7 @@
             </div>
             <div class="col-sm">
                 <div class="card border-danger mb-3">
-                    <div class="card-header" style='background-color: red'>
+                    <div class="card-header" style='background:black;color:white'>
                         GÓI TIN R2L
                     </div>
                     <div class="card-body">
@@ -155,7 +155,7 @@
 
     <script>
         connection = new WebSocket("ws://0.0.0.0:5000/ws");
-        var algorithm = "kmeans";
+        var algorithm = "neuralnetwork";
 		var command = "all";
         var algorithmText = "Thuật toán được lựa chọn: ";
         connection.onmessage = (message) => {
