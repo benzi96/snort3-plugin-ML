@@ -119,7 +119,7 @@ nmap 192.168.1.1/24
 nmap -sP network_address_range
 ipsweep: hping3 -i u1 -c 2500 --rand-source 192.168.189.128
 hping3 -1 -i u1 -c 2500 --rand-dest 192.168.189.x --interface ens33
-portsweep: hping3 -i u1 -c 2500 -p ++1 -a 192.168.1.150 VICTIM_IP
+portsweep: hping3 -i u100 -p ++1 -a SPOOF_IP VICTIM_IP
 
 //normal
 sudo hping3 server_IP -i u300000 --rand-source
