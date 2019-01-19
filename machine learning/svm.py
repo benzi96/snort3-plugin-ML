@@ -13,6 +13,7 @@ class SVM_NSL(DefaultNSL):
         infogain_ind = [3, 4, 5, 6, 12, 23, 24, 25, 26, 29, 30, 31, 32,
                         33, 34, 35, 36, 37, 38, 39]
         data = pd.read_csv(filepath, names=COL_NAMES, index_col=False)
+        # data = df[(df['labels'] == 'normal') | (df['labels'] == 'back') | (df['labels'] == 'land') | (df['labels'] == 'neptune') | (df['labels'] == 'pod') | (df['labels'] == 'smurf') | (df['labels'] == 'teardrop') | (df['labels'] == 'mailbomb') | (df['labels'] == 'apache2') | (df['labels'] == 'processtable') | (df['labels'] == 'udpstorm')]
         # Shuffle data
         data = data.sample(frac=1).reset_index(drop=True)
         labels = data['labels']
@@ -49,8 +50,8 @@ class SVM_NSL(DefaultNSL):
 
     def train_clf(self):
         train_data, train_labels = self.training
-        # bin_labels = train_labels.apply(lambda x: x if x == 'normal' else 'anomaly')
-        bin_labels = train_labels.apply(lambda x: ATTACKS[x])
+        bin_labels = train_labels.apply(lambda x: x if x == 'normal' else 'anomaly')
+        # bin_labels = train_labels.apply(lambda x: ATTACKS[x])
         self.clf = LinearSVC(C=8)
         self.clf.fit(train_data, bin_labels)
 
