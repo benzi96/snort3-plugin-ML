@@ -15,3 +15,5 @@ https://github.com/AnomalyIDSBenchmark
 https://github.com/dthongvl/ids-machine-learning
 
 Feature Extractor from: https://github.com/AI-IDS/kdd99_feature_extractor
+
+* Update setup docs in [docs](./docs/Howtosetup.docx) (Vietnamese Version)
