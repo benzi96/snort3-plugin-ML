@@ -8,6 +8,7 @@ from flask import Flask, render_template
 import flatbuffers
 from flask import request
 from flask_sockets import Sockets
+from werkzeug.routing import Rule
 import json
 import time
 import random
@@ -28,8 +29,7 @@ svm = SVM_NSL()
 neutralNetwork= NeuralNetworkNSL()
 naiveBayes= NaiveBayesNSL()
 
-
-@sockets.route('/ws')
+@sockets.route('/ws', websocket=True)
 def web_socket(ws):
     while not ws.closed:
         message = ws.receive()
@@ -59,12 +59,12 @@ def web_socket(ws):
                 data = []
                 if message == "statistickmeans":
                     data = kmean.predict(listPackets)
-                # if message == "statisticneuralnetwork":
-                #    data = neutralNetwork.predict(listPackets)
-                # if message == "statisticsvm":
-                #    data = svm.predict(listPackets)
-                # if message == "statisticnaivebayes":
-                #    data = naiveBayes.predict(listPackets)
+                if message == "statisticneuralnetwork":
+                   data = neutralNetwork.predict(listPackets)
+                if message == "statisticsvm":
+                   data = svm.predict(listPackets)
+                if message == "statisticnaivebayes":
+                   data = naiveBayes.predict(listPackets)
                 del listPackets[:n]
                 
                 for result in data:
@@ -144,16 +144,17 @@ def predict_packet():
     total = total + 1
     return "a"
 
+sockets.url_map.add(Rule('/ws', endpoint=web_socket, websocket=True))
 
 if __name__ == '__main__':
     kmean.load_training_data('datasets/KDDTrain+.csv')
     kmean.train_clf()
-    # svm.load_training_data('datasets/KDDTrain+.csv')
-    # svm.train_clf()
-    # neutralNetwork.load_training_data('datasets/KDDTrain+.csv')
-    # neutralNetwork.train_clf()
-    # naiveBayes.load_training_data('datasets/KDDTrain+.csv')
-    # naiveBayes.train_clf()
+    svm.load_training_data('datasets/KDDTrain+.csv')
+    svm.train_clf()
+    neutralNetwork.load_training_data('datasets/KDDTrain+.csv')
+    neutralNetwork.train_clf()
+    naiveBayes.load_training_data('datasets/KDDTrain+.csv')
+    naiveBayes.train_clf()
 
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler

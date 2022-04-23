@@ -228,7 +228,7 @@ std::string Dpx::predict(FeatureExtractor::ConversationFeatures *cf) {
 }
 
 void Dpx::eval(Packet *packet) {
-    fprintf(stderr, "test ngoai\n");
+    // fprintf(stderr, "test ngoai\n");
     if (packet->is_ip4() && (packet->is_tcp() || packet->is_udp() || packet->is_icmp())) {
         FeatureExtractor::IpFragment *frag = getIpFragment(packet);
         FeatureExtractor::Packet *datagr = nullptr;
@@ -244,9 +244,9 @@ void Dpx::eval(Packet *packet) {
     }
     conv_reconstructor->finish_all_conversations();
     FeatureExtractor::Conversation *conv;
-    fprintf(stderr, "test ngoai\n");
+    // fprintf(stderr, "test ngoai\n");
     while ((conv = conv_reconstructor->get_next_conversation()) != nullptr) {
-	    fprintf(stderr, "test\n");
+	    // fprintf(stderr, "test\n");
         FeatureExtractor::ConversationFeatures *cf = stats_engine->calculate_features(conv);
         conv = nullptr;        // Should not be used anymore, object will commit suicide
         predict(cf);
