@@ -20,7 +20,7 @@
         </div>
         <div style='display:flex;justify-content:space-between;width:250px'>
             <button id="neuralnetwork" type="button" class="btn btn-secondary" onclick="neuralnetwork()" style='background:Lavender;font-size:15pt;;color:black'>Neural Network</button>
-            <!-- <button id="kmeans" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button> -->
+            <button id="kmeans" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button>
             <button id="svm" type="button" class="btn btn-secondary" onclick="svm()" style='background:Lavender;font-size:15pt;;color:black'>SVM</button>
 			<!--<button id="naivebayes" type="button" class="btn btn-secondary" onclick="naivebayes()">Naive Bayes</button> -->
 			<!--<button id="reset" type="button" class="btn btn-secondary" onclick="reset()">Reset</button> -->
@@ -154,7 +154,7 @@
     </div>
 
     <script>
-        connection = new WebSocket("ws://0.0.0.0:5000/ws");
+        connection = new WebSocket("ws://localhost:5000/ws");
         var algorithm = "neuralnetwork";
 		var command = "all";
         var algorithmText = "Thuật toán được lựa chọn: ";

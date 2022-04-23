@@ -19,6 +19,7 @@ sudo make install
 
 // list plugin
 $my_path/bin/snort --list-plugins
+$my_path/bin/snort --plugin-path /opt/snort/lib/snort_extra --list-plugins
 
 // library curl to compile c++ file 
 sudo apt-get install libcurl4-openssl-dev
@@ -59,6 +60,7 @@ example: plugin_name = { } //use plugin with name plugin_name with default optio
 $my_path/bin/snort --plugin-path /opt/snort/lib/snort_extra -A alert_ex --warn-all
 $my_path/bin/snort -c $my_path/etc/snort/snort.lua --plugin-path $my_path/lib/snort_extra -r ie_aurora_exploitWin2k3.pcap
 sudo $my_path/bin/snort -c ~/ids-machine-learning/plugin/snort.lua --plugin-path $my_path/lib/snort_extra -i ens33
+sudo $my_path/bin/snort -c $my_path/etc/snort/snort.lua --plugin-path $my_path/lib/snort/plugins/extra -i eth0
 
 //
 Set-ExecutionPolicy Restricted
@@ -125,3 +127,5 @@ portsweep: hping3 -i u100 -p ++1 -a SPOOF_IP VICTIM_IP
 sudo hping3 server_IP -i u300000 --rand-source
 sudo hping3 -1 server_IP -i u300000 --rand-source
 sudo hping3 -2 server_IP -i u300000 --rand-source
+hping3 -2 172.17.0.2 -i u300000 --rand-source
+sudo hping3 -c 10000 --rand-source --udp -p 445 -i u100 -d 10 172.17.0.2

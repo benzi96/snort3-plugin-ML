@@ -71,6 +71,7 @@ dce_tcp = { }
 dce_udp = { }
 dce_http_proxy = { }
 dce_http_server = { }
+dpx = { host = '0.0.0.0:5000/predict' }
 
 -- see snort_defaults.lua for default_*
 gtp_inspect = default_gtp
@@ -83,8 +84,6 @@ ftp_data = { }
 
 http_inspect = default_http_inspect
 http2_inspect = { }
-
-dpx = { host = '0.0.0.0:5000/predict' }
 
 -- see file_magic.lua for file id rules
 file_id = { file_rules = file_magic }

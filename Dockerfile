@@ -54,4 +54,4 @@ ENV SNORT_LUA_PATH /opt/snort/etc/snort
 
 # CMD ["python3", "main.py"]
 
-# ENTRYPOINT [ "snort", "-c", "/opt/snort/etc/snort/snort.lua", "--plugin-path", "/opt/snort/lib/snort_extra/", "-i", "eth0" ]
+# ENTRYPOINT [ "snort", "-c", "/opt/snort/etc/snort/snort.lua", "--plugin-path", "/opt/snort/lib/snort/plugins/extra/", "-i", "eth0" ]
