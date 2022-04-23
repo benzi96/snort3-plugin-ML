@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+</html>
+
+<head>
+    <title>Snort with Machine Learning</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Snort with Machine Learning</h1>
+        </div>
+        <div class="btn-group">
+            <button id="kmeans" type="button" class="btn btn-secondary" onclick="neuralnetwork()">Neural Network</button>
+            <button id="neuralnetwork" type="button" class="btn btn-secondary" onclick="kmeans()">KMeans Cluster</button>
+            <button id="svm" type="button" class="btn btn-secondary" onclick="svm()">SVM</button>
+        </div>
+        <div>
+            <h3 id="algorithmselected">Thuật toán được lựa chọn: Neural Network</h3>
+        </div>
+        <div class="col-xs-12" style="height:17px;"></div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card border-success mb-3">
+                    <div class="card-header" style='background:yellowgreen'>
+                        GÓI TIN BÌNH THƯỜNG
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='normal' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-success">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentnormal"> %
+                                <span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card border-danger mb-3">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN BẤT THƯỜNG
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='anomaly' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-danger">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentabnormal"> %
+                                <span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card border-danger mb-3">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN U2R
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='u2r' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-danger">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentu2r"> %
+                                <span>
+                        </small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card border-danger mb-3">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN DDOS
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='ddos' class="card-text" style='font-size: 16pt;'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-danger">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentddos"> %
+                                <span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card border-danger mb-3">
+                    <div class="card-header" style='background:red'>
+                        GÓI TIN PROBE
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='probe' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-danger">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentprobe"> %
+                                <span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card border-danger mb-3">
+                    <div class="card-header" style='background-color: red'>
+                        GÓI TIN R2L
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='r2l' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-danger">
+                        <small class="text-muted">Tỉ lệ:
+                            <span id="percentr2l"> %
+                                <span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-header">
+                        TỔNG SỐ GÓI TIN
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Số lượng</h5>
+                        <p id='total' class="card-text" style='font-size: 16pt'>0</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        connection = new WebSocket("ws://0.0.0.0:5000/ws");
+        var algorithm = "neuralnetwork";
+        var algorithmText = "Thuật toán được lựa chọn: ";
+        connection.onmessage = (message) => {
+            console.log(message.data);
+            var statistic = JSON.parse(message.data)
+            document.getElementById("normal").innerText = statistic.normal;
+            document.getElementById("anomaly").innerText = statistic.anomaly;
+            // document.getElementById("total").innerText = statistic.normal + statistic.anomaly + statistic.ddos + statistic.probe + statistic.r2l + statistic.u2r;
+            document.getElementById("ddos").innerText = statistic.ddos;
+            document.getElementById("probe").innerText = statistic.probe;
+            document.getElementById("r2l").innerText = statistic.r2l;
+            document.getElementById("u2r").innerText = statistic.u2r;
+            document.getElementById("total").innerText = statistic.all;
+            document.getElementById("percentnormal").innerText = (statistic.normal * 100 / statistic.all).toFixed(2);
+            document.getElementById("percentabnormal").innerText = (statistic.anomaly * 100 / statistic.all).toFixed(2);
+            document.getElementById("percentu2r").innerText = (statistic.u2r * 100 / statistic.all).toFixed(2);
+            document.getElementById("percentddos").innerText = (statistic.ddos * 100 / statistic.all).toFixed(2);
+            document.getElementById("percentprobe").innerText = (statistic.probe * 100 / statistic.all).toFixed(2);
+            document.getElementById("percentr2l").innerText = (statistic.r2l * 100 / statistic.all).toFixed(2);
+        };
+        function kmeans() {
+            algorithm = "kmeans";
+            document.getElementById("algorithmselected").innerText = algorithmText + "KMeans Cluster";
+        }
+        function neuralnetwork() {
+            algorithm = "neuralnetwork";
+            document.getElementById("algorithmselected").innerText = algorithmText + "Neural Network";
+        }
+        function svm() {
+            algorithm = "svm";
+            document.getElementById("algorithmselected").innerText = algorithmText + "SVM";
+        }
+        setInterval(() => {
+            connection.send("statistic" + algorithm)
+        }, 3000);
+
+	    setInterval(() => {
+            connection.send("all")
+        }, 1000);
+      
+    </script>
+</body>
+
+</html>
