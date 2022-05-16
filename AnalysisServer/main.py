@@ -1,6 +1,6 @@
-from MachineLearningAlgorithm.kmeans_nsl import KMeansNSL
-from MachineLearningAlgorithm.svm import SVM_NSL
-from MachineLearningAlgorithm.neuralnetwork import NeuralNetworkNSL
+from MachineLearningAlgorithm.kmeans_nsl_28_features import KMeansNSL
+from MachineLearningAlgorithm.svm_28_features import SVM_NSL
+from MachineLearningAlgorithm.neuralnetwork_28_features import NeuralNetworkNSL
 from MachineLearningAlgorithm.naivebayes import NaiveBayesNSL
 
 from MachineLearningAlgorithm.packet import Packet
